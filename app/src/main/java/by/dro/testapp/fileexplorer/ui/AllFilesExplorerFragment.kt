@@ -1,9 +1,12 @@
 package by.dro.testapp.fileexplorer.ui
 
-import androidx.fragment.app.Fragment
-import by.dro.testapp.fileexplorer.R
+
+import androidx.fragment.app.activityViewModels
+import by.dro.testapp.fileexplorer.viewmodels.AllFileViewModel
 
 
-class AllFilesExplorerFragment : Fragment(R.layout.fragment_all_files_explorer) {
+
+class AllFilesExplorerFragment : BaseExplorerFragment() {
+    override val viewModel: AllFileViewModel by activityViewModels()
 
 }

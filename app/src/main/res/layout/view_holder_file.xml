@@ -8,6 +8,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="100dp"
         android:layout_height="150dp"
+        android:layout_margin="4dp"
         android:layout_gravity="center_horizontal">
 
         <ImageView
@@ -24,10 +25,14 @@
             android:id="@+id/textView"
             android:layout_width="@dimen/file_vh_width"
             android:layout_height="0dp"
-            android:text="TextView"
+            android:padding="4dp"
+            android:maxLines="2"
+            android:ellipsize="end"
+            tools:text="File name"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView" />
+            app:layout_constraintTop_toBottomOf="@+id/imageView"
+            app:layout_constraintVertical_bias="0.77" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

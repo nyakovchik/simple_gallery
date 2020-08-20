@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import by.dro.testapp.fileexplorer.util.getInternalStoragePath
 import by.dro.testapp.fileexplorer.util.getSDCardPath
+import java.io.File
 import java.util.*
 
 abstract class FileViewModel(application: Application) : AndroidViewModel(application){
@@ -24,6 +25,8 @@ abstract class FileViewModel(application: Application) : AndroidViewModel(applic
         stack.push(path)
         _path.value = path
     }
+
+    abstract fun filter(file: File): Boolean
 
     fun back(){
         if (stack.size > 1){

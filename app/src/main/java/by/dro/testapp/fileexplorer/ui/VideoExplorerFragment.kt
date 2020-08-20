@@ -1,10 +1,10 @@
 package by.dro.testapp.fileexplorer.ui
 
 
-import androidx.fragment.app.Fragment
-import by.dro.testapp.fileexplorer.R
+import androidx.fragment.app.activityViewModels
+import by.dro.testapp.fileexplorer.viewmodels.VideoViewModel
 
 
-class VideoExplorerFragment : Fragment(R.layout.fragment_video_explorer) {
-
+class VideoExplorerFragment : BaseExplorerFragment() {
+    override val viewModel: VideoViewModel by activityViewModels()
 }
