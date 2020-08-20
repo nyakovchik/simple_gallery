@@ -3,6 +3,7 @@ package by.dro.testapp.fileexplorer.ui
 import android.content.Context
 import android.graphics.Point
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.view.View
 import android.view.WindowManager
@@ -20,8 +21,17 @@ abstract class BaseExplorerFragment : Fragment(R.layout.fragment_base_explorer) 
 
     abstract val viewModel: FileViewModel
     private val adapter = FileAdapter{
-            Log.d("kkk", "path - ${it.path}")
-            PhotoDialogFragment.newInstance(it.path).show(childFragmentManager, "ddd")
+            Log.d("kkk", "mediaType - ${it.mediaType}")
+
+        when(it.mediaType){
+
+            MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO ->
+                startActivity(VideoPlayerActivity.newIntent(context, it.path))
+
+            MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE ->
+                PhotoDialogFragment.newInstance(it.path).show(childFragmentManager, "OpenPhoto")
+        }
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

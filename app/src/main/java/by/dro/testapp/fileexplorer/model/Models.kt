@@ -8,6 +8,6 @@ data class MediaFolder(
 )
 
 
-data class MediaFile(val path: String)
+data class MediaFile(val path: String, val mediaType: Int)
 
 //data class MediaImg(override val path: String): MediaFile

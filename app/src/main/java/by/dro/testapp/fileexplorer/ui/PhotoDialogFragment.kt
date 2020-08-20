@@ -9,7 +9,6 @@ import android.view.WindowManager
 import androidx.fragment.app.DialogFragment
 import by.dro.testapp.fileexplorer.R
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.dialog_fragment_photo.view.*
 
 
