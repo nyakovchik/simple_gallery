@@ -5,6 +5,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.KeyEvent
 import android.view.WindowManager
 import by.dro.testapp.fileexplorer.R
 import kotlinx.android.synthetic.main.activity_video_player.*
@@ -40,7 +41,7 @@ class VideoPlayerActivity : AppCompatActivity() {
 
         videoView.setOnCompletionListener {
 
-            window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+            window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
             Log.d("kkk", "setOnCompletionListener")
         }
 
@@ -66,5 +67,14 @@ class VideoPlayerActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         if (!videoView.isPlaying) super.onBackPressed()
+    }
+
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN || keyCode == KeyEvent.KEYCODE_VOLUME_UP) {
+            videoView.pause()
+            window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+        }
+        
+        return true
     }
 }
