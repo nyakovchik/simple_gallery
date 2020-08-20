@@ -20,7 +20,8 @@ abstract class BaseExplorerFragment : Fragment(R.layout.fragment_base_explorer) 
 
     abstract val viewModel: FileViewModel
     private val adapter = FileAdapter{
-        if (it.isDirectory) viewModel.openInternal(it.absolutePath)
+            Log.d("kkk", "path - ${it.path}")
+            PhotoDialogFragment.newInstance(it.path).show(childFragmentManager, "ddd")
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -29,41 +30,17 @@ abstract class BaseExplorerFragment : Fragment(R.layout.fragment_base_explorer) 
         fileRecycler.layoutManager = getLayoutManager(requireContext())
         fileRecycler.adapter = adapter
 
-        viewModel.path.observe(viewLifecycleOwner, Observer {
+        viewModel.listMedia.observe(viewLifecycleOwner, Observer {
 
             Log.d("kkk", "internal - $it")
 
-            if (it == null){
-                openRoot()
-                return@Observer
-            }
-
-            File(it).list()?.forEach { p ->
-                Log.d("kkk", "path - $p")
-            }
-
-            File(it).listFiles()?.toList()?.filter { file ->
-                viewModel.filter(file)
-            }.also {array ->
-                adapter.submitList(array)
-            }
-
+           adapter.submitList(it)
 
         })
 
-        openRoot()
+
     }
 
-    private fun openRoot(){
-
-        val list = mutableListOf<File>()
-
-        if (viewModel.internalPath != "") list.add(File(viewModel.internalPath))
-
-        if (viewModel.sdCardPath != "") list.add(File(viewModel.sdCardPath))
-
-        adapter.submitList(list)
-    }
 
 
     private fun getLayoutManager(context: Context): RecyclerView.LayoutManager {
@@ -83,7 +60,7 @@ abstract class BaseExplorerFragment : Fragment(R.layout.fragment_base_explorer) 
     fun onBackPressed(): Boolean {
 
         return if (isResumed) {
-            viewModel.back()
+
             true
         } else false
 

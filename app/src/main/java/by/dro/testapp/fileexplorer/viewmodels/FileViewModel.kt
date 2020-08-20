@@ -4,41 +4,15 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import by.dro.testapp.fileexplorer.util.getInternalStoragePath
-import by.dro.testapp.fileexplorer.util.getSDCardPath
-import java.io.File
-import java.util.*
+import by.dro.testapp.fileexplorer.model.MediaFile
 
-abstract class FileViewModel(application: Application) : AndroidViewModel(application){
 
-    val internalPath : String = application.getInternalStoragePath()
-    val sdCardPath : String = application.getSDCardPath()
+abstract class FileViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val _path = MutableLiveData<String?>()
+    abstract val _listMedia : MutableLiveData<List<MediaFile>>
+    val listMedia: LiveData<List<MediaFile>>
+        get() = _listMedia
 
-    val path: LiveData<String?>
-    get() = _path
-
-    private val stack = Stack<String>()
-
-    fun openInternal(path: String){
-        stack.push(path)
-        _path.value = path
-    }
-
-    abstract fun filter(file: File): Boolean
-
-    fun back(){
-        if (stack.size > 1){
-            stack.pop()
-            _path.value = stack.peek()
-        }
-        else if (stack.size <= 1){
-            stack.clear()
-            _path.value = null
-        }
-
-    }
 
 
 }

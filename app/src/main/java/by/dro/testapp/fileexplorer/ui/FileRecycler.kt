@@ -6,13 +6,13 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import by.dro.testapp.fileexplorer.R
-import by.dro.testapp.fileexplorer.util.fromFile
-import by.dro.testapp.fileexplorer.util.fromRes
+import by.dro.testapp.fileexplorer.model.MediaFile
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.view_holder_file.view.*
-import java.io.File
 
 
-class FileAdapter(var click: (file: File) -> Unit): ListAdapter<File, FileVH>(DIFF_CALLBACK){
+class FileAdapter(var click: (file: MediaFile) -> Unit): ListAdapter<MediaFile, FileVH>(DIFF_CALLBACK){
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FileVH {
         return FileVH(parent)
     }
@@ -34,27 +34,26 @@ class FileAdapter(var click: (file: File) -> Unit): ListAdapter<File, FileVH>(DI
     }
 }
 
-private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<File>() {
-    override fun areItemsTheSame(oldItem: File, newItem: File): Boolean =
+private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<MediaFile>() {
+    override fun areItemsTheSame(oldItem: MediaFile, newItem: MediaFile): Boolean =
         oldItem.hashCode() == newItem.hashCode()
 
-    override fun areContentsTheSame(oldItem: File, newItem: File): Boolean =
-        oldItem.absolutePath == newItem.absolutePath && oldItem.length() == newItem.length()
+    override fun areContentsTheSame(oldItem: MediaFile, newItem: MediaFile): Boolean = oldItem.path == newItem.path
 }
 
 class FileVH(parent: ViewGroup) : RecyclerView.ViewHolder(
     LayoutInflater.from(parent.context).inflate(R.layout.view_holder_file, parent, false)
 ) {
 
-    fun bind(file: File) {
+    fun bind(file: MediaFile) {
 
-        if (file.isDirectory){
-            itemView.imageView.fromRes(R.drawable.ic_dossier)
-        } else{
-            itemView.imageView.fromFile(file)
-        }
+        Glide.with(itemView)
+            .load(file.path)
+            .apply(RequestOptions().centerCrop())
+            .placeholder(R.drawable.ic_launcher_background)
+            .into(itemView.imageView)
 
-        itemView.textView.text = file.name
+
     }
 
 }

@@ -1,10 +1,16 @@
 package by.dro.testapp.fileexplorer.viewmodels
 
 import android.app.Application
-import by.dro.testapp.fileexplorer.util.getMimeType
-import java.io.File
+import androidx.lifecycle.MutableLiveData
+import by.dro.testapp.fileexplorer.model.MediaFile
+import by.dro.testapp.fileexplorer.util.queryImageStorage
 
 class PhotoViewModel(application: Application): FileViewModel(application) {
 
-    override fun filter(file: File) = file.isDirectory || file.path.getMimeType().contains("image")
+    override val _listMedia = MutableLiveData<List<MediaFile>>()
+
+    init {
+        val list = queryImageStorage(application)
+        _listMedia.value = list
+    }
 }

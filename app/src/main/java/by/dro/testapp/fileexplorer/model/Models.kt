@@ -6,3 +6,8 @@ data class MediaFolder(
     val firstImg: String,
     val elementsCount: Int
 )
+
+
+data class MediaFile(val path: String)
+
+//data class MediaImg(override val path: String): MediaFile

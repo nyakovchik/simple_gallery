@@ -1,10 +1,17 @@
 package by.dro.testapp.fileexplorer.viewmodels
 
 import android.app.Application
-import by.dro.testapp.fileexplorer.util.getMimeType
-import java.io.File
+import androidx.lifecycle.MutableLiveData
+import by.dro.testapp.fileexplorer.model.MediaFile
+import by.dro.testapp.fileexplorer.util.queryVideoStorage
 
 class VideoViewModel(application: Application): FileViewModel(application) {
 
-    override fun filter(file: File) = file.isDirectory || file.path.getMimeType().contains("video")
+    override val _listMedia = MutableLiveData<List<MediaFile>>()
+
+    init {
+        val list = queryVideoStorage(application)
+        _listMedia.value = list
+    }
+
 }
