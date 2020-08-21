@@ -53,6 +53,7 @@ class FileVH(parent: ViewGroup) : RecyclerView.ViewHolder(
             .placeholder(R.drawable.ic_launcher_background)
             .into(itemView.imageView)
 
+        itemView.name.text = file.name
 
     }
 

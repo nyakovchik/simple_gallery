@@ -5,6 +5,7 @@ import android.graphics.Point
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
+import android.view.MenuItem
 import android.view.View
 import android.view.WindowManager
 import androidx.fragment.app.Fragment
@@ -14,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView
 import by.dro.testapp.fileexplorer.R
 import by.dro.testapp.fileexplorer.viewmodels.FileViewModel
 import kotlinx.android.synthetic.main.fragment_base_explorer.*
-import java.io.File
 
 
 abstract class BaseExplorerFragment : Fragment(R.layout.fragment_base_explorer) {
@@ -34,6 +34,11 @@ abstract class BaseExplorerFragment : Fragment(R.layout.fragment_base_explorer) 
 
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -41,8 +46,6 @@ abstract class BaseExplorerFragment : Fragment(R.layout.fragment_base_explorer) 
         fileRecycler.adapter = adapter
 
         viewModel.listMedia.observe(viewLifecycleOwner, Observer {
-
-            Log.d("kkk", "internal - $it")
 
            adapter.submitList(it)
 
@@ -60,7 +63,6 @@ abstract class BaseExplorerFragment : Fragment(R.layout.fragment_base_explorer) 
         val size = Point()
         display.getSize(size)
         val width: Int = size.x
-//        val height: Int = size.y
 
         val spanCount = (width / context.resources.getDimension(R.dimen.file_vh_width)).toInt()
 
@@ -76,8 +78,13 @@ abstract class BaseExplorerFragment : Fragment(R.layout.fragment_base_explorer) 
 
     }
 
-    override fun onResume() {
-        super.onResume()
-        Log.d("kkk", "onResume")
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        when(item.itemId){
+            R.id.sortByDate -> viewModel.sortBy { it.date }
+            R.id.sortByName -> viewModel.sortBy { it.name }
+        }
+
+        return super.onOptionsItemSelected(item)
     }
 }
