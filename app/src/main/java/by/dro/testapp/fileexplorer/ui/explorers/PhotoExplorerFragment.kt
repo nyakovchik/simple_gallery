@@ -1,9 +1,6 @@
-package by.dro.testapp.fileexplorer.ui
+package by.dro.testapp.fileexplorer.ui.explorers
 
-import android.os.Bundle
-import android.view.View
 import androidx.fragment.app.activityViewModels
-import by.dro.testapp.fileexplorer.R
 import by.dro.testapp.fileexplorer.viewmodels.PhotoViewModel
 
 

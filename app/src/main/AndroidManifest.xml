@@ -14,8 +14,14 @@
         android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.VideoPlayerActivity"
-            android:theme="@style/AppThemeNoActionBar"/>
+
+        <activity
+            android:name=".ui.viewers.PhotoViewerActivity"
+            android:theme="@style/AppThemeNoActionBar" />
+
+        <activity
+            android:name=".ui.viewers.VideoViewerActivity"
+            android:theme="@style/AppThemeNoActionBar" />
 
         <activity android:name=".ui.MainActivity">
             <intent-filter>

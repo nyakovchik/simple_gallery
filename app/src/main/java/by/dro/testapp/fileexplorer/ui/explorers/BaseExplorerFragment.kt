@@ -1,10 +1,9 @@
-package by.dro.testapp.fileexplorer.ui
+package by.dro.testapp.fileexplorer.ui.explorers
 
 import android.content.Context
 import android.graphics.Point
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.view.WindowManager
@@ -13,6 +12,8 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import by.dro.testapp.fileexplorer.R
+import by.dro.testapp.fileexplorer.ui.viewers.PhotoViewerActivity
+import by.dro.testapp.fileexplorer.ui.viewers.VideoViewerActivity
 import by.dro.testapp.fileexplorer.viewmodels.FileViewModel
 import kotlinx.android.synthetic.main.fragment_base_explorer.*
 
@@ -20,16 +21,26 @@ import kotlinx.android.synthetic.main.fragment_base_explorer.*
 abstract class BaseExplorerFragment : Fragment(R.layout.fragment_base_explorer) {
 
     abstract val viewModel: FileViewModel
-    private val adapter = FileAdapter{
-            Log.d("kkk", "mediaType - ${it.mediaType}")
 
-        when(it.mediaType){
+    private val adapter = FileAdapter {
+
+        when (it.mediaType) {
 
             MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO ->
-                startActivity(VideoPlayerActivity.newIntent(context, it.path))
+                startActivity(
+                    VideoViewerActivity.newIntent(
+                        context,
+                        it.path
+                    )
+                )
 
             MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE ->
-                PhotoDialogFragment.newInstance(it.path).show(childFragmentManager, "OpenPhoto")
+                startActivity(
+                    PhotoViewerActivity.newIntent(
+                        context,
+                        it.path
+                    )
+                )
         }
 
     }
@@ -47,13 +58,12 @@ abstract class BaseExplorerFragment : Fragment(R.layout.fragment_base_explorer) 
 
         viewModel.listMedia.observe(viewLifecycleOwner, Observer {
 
-           adapter.submitList(it)
+            adapter.submitList(it)
 
         })
 
 
     }
-
 
 
     private fun getLayoutManager(context: Context): RecyclerView.LayoutManager {
@@ -69,18 +79,9 @@ abstract class BaseExplorerFragment : Fragment(R.layout.fragment_base_explorer) 
         return GridLayoutManager(context, spanCount)
     }
 
-    fun onBackPressed(): Boolean {
-
-        return if (isResumed) {
-
-            true
-        } else false
-
-    }
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
-        when(item.itemId){
+        when (item.itemId) {
             R.id.sortByDate -> viewModel.sortBy { it.date }
             R.id.sortByName -> viewModel.sortBy { it.name }
         }

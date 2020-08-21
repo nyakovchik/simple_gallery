@@ -1,4 +1,4 @@
-package by.dro.testapp.fileexplorer.ui
+package by.dro.testapp.fileexplorer.ui.explorers
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -12,7 +12,9 @@ import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.view_holder_file.view.*
 
 
-class FileAdapter(var click: (file: MediaFile) -> Unit): ListAdapter<MediaFile, FileVH>(DIFF_CALLBACK){
+class FileAdapter(var click: (file: MediaFile) -> Unit): ListAdapter<MediaFile, FileVH>(
+    DIFF_CALLBACK
+){
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FileVH {
         return FileVH(parent)
     }

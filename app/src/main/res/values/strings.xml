@@ -9,4 +9,6 @@
     <string name="sort_name">Name</string>
     <string name="sort_date">Date</string>
 
+    <string name="back">Please click BACK again to exit</string>
+
 </resources>

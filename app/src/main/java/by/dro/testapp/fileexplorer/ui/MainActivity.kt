@@ -2,8 +2,11 @@ package by.dro.testapp.fileexplorer.ui
 
 import android.Manifest
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.Menu
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import by.dro.testapp.fileexplorer.R
 import com.google.android.material.tabs.TabLayoutMediator
@@ -11,6 +14,9 @@ import kotlinx.android.synthetic.main.activity_main.*
 import permissions.dispatcher.ktx.withPermissionsCheck
 
 class MainActivity : AppCompatActivity() {
+
+    private var doubleBackToExitPressedOnce = false
+    private val doubleBackTask = Runnable{ doubleBackToExitPressedOnce = false }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,20 +57,19 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        val listFragments = supportFragmentManager.fragments
 
-//        var handled = false
+        if (doubleBackToExitPressedOnce) {
 
-        listFragments.forEach {
-            if (it is BaseExplorerFragment){
-                /*handled = */it.onBackPressed()
+            super.onBackPressed()
 
-//                if (handled)  return
-            }
+        } else{
+
+            doubleBackToExitPressedOnce = true
+            Toast.makeText(this, getString(R.string.back), Toast.LENGTH_SHORT).show()
+
+            Handler(Looper.getMainLooper()).postDelayed(doubleBackTask, 2000)
+
         }
-
-//        if (!handled) super.onBackPressed()
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

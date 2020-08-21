@@ -70,7 +70,7 @@ abstract class FileViewModel(application: Application) : AndroidViewModel(applic
                         val id = it.getLong(idColumn)
                         val name = it.getString(nameColumn)
                         val size = it.getString(sizeColumn)
-                        val date = it.getString(dateColumn)
+                        val date = it.getLong(dateColumn)
                         val data = it.getString(dataColumn)
                         val mediaType = it.getInt(mediaTypeColumn)
 
