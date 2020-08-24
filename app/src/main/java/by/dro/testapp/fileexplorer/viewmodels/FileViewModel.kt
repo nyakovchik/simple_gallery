@@ -18,7 +18,7 @@ abstract class FileViewModel(application: Application) : AndroidViewModel(applic
 
     abstract val selection: String?
 
-    abstract val _listMedia : MutableLiveData<List<MediaFile>>
+    val _listMedia = MutableLiveData<List<MediaFile>>()
 
     val listMedia: LiveData<List<MediaFile>>
         get() = _listMedia
