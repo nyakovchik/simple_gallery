@@ -14,9 +14,7 @@ import by.dro.testapp.fileexplorer.model.MediaFile
 import kotlinx.coroutines.launch
 
 
-abstract class FileViewModel(application: Application) : AndroidViewModel(application) {
-
-    abstract val selection: String?
+abstract class FileViewModel(application: Application, selection: String? = null) : AndroidViewModel(application) {
 
     val _listMedia = MutableLiveData<List<MediaFile>>()
 
@@ -31,7 +29,7 @@ abstract class FileViewModel(application: Application) : AndroidViewModel(applic
         }
     }
 
-    fun queryMediaStorage(context: Context) {
+    fun queryMediaStorage(context: Context, selection: String?) {
 
         viewModelScope.launch {
             val result = mutableListOf<MediaFile>()
@@ -92,6 +90,10 @@ abstract class FileViewModel(application: Application) : AndroidViewModel(applic
 
             _listMedia.value = result
         }
+    }
+
+    init {
+        queryMediaStorage(application, selection)
     }
 
 }
