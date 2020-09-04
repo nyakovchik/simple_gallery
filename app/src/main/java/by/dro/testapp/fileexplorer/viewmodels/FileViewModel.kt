@@ -11,6 +11,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import by.dro.testapp.fileexplorer.model.MediaFile
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
@@ -23,15 +24,15 @@ abstract class FileViewModel(application: Application, selection: String? = null
 
 
     fun <R : Comparable<R>> sortBy(selector: (MediaFile) -> R?){
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             val list = _listMedia.value
-            _listMedia.value = list?.sortedBy(selector)
+            _listMedia.postValue(list?.sortedBy(selector))
         }
     }
 
     fun queryMediaStorage(context: Context, selection: String?) {
 
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             val result = mutableListOf<MediaFile>()
 
             val imageProjection = arrayOf(
@@ -88,7 +89,7 @@ abstract class FileViewModel(application: Application, selection: String? = null
                 }
             }
 
-            _listMedia.value = result
+            _listMedia.postValue(result)
         }
     }
 
